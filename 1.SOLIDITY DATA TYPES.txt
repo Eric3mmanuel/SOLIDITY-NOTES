@@ -1,0 +1,38 @@
+SOLIDITY DATA TYPES
+
+Solidity supports various data types 
+e.g 
+
+Boolean (bool): true or false
+
+Unsigned Integer (uint): unsigned whole number (positive)
+
+Integer (int): signed whole number (positive and negative)
+
+Address (address): 20 bytes value. An example of an address can be found within your MetaMask account.
+
+Bytes (bytes): low-level raw byte data 
+
+Variables definition
+
+Variables are just placeholders for values. A value can be one data type described in the list above. For instance, we could create a Boolean variable named hasFavoriteNumber, which would represent whether someone has a favourite number or not (constant true or false).
+
+example
+
+```solidity 
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.19;
+​
+contract SimpleStorage {
+    // Basic types
+    bool hasFavoriteNumber = true;
+    uint256 favoriteNumber = 88;
+    string favoriteNumberInText = "eighty-eight";
+    int256 favoriteInt = -88;
+    address myAddress = 0xaB1B7206AA6840C795aB7A6AE8b15417b7E63a8d;
+    bytes32 favoriteBytes32 = "cat";
+}
+```
+
+The semicolon at the end of each line signifies that a statement is completed.
+
