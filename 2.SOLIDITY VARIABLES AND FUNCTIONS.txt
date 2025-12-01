@@ -1,0 +1,154 @@
+SOLIDITY VARIABLES
+
+✅ 1. STATE VARIABLES
+
+These are variables stored permanently on the blockchain.
+
+Think of them like:
+👉 Data written in stone
+👉 Stored in contract storage
+👉 Cost gas to write & update
+
+Characteristics
+
+Accessible by any function inside the contract
+
+Persistent (they keep their value between function calls)
+
+Cost gas whenever you modify them
+
+Saved on-chain
+
+Declared outside functions
+
+example
+---
+
+```solidity 
+contract Example {
+    uint public count; // state variable
+}
+```
+count lives forever unless changed, and it’s stored in blockchain storage.
+---
+
+✅ 2. LOCAL VARIABLES
+
+These are variables inside functions and exist temporarily.
+
+Think of them like:
+👉 Scratch notes
+👉 Live only while the function runs
+👉 Do NOT cost storage gas
+👉 NOT stored on blockchain
+
+Characteristics
+
+Only exist during that function call
+
+Not saved on-chain
+
+Cheap (no storage gas)
+
+Not accessible outside the function
+
+Declared inside functions
+
+example
+```solidity
+contract KaribuniWeb3 {
+
+    //State Variables 
+    string name;
+    bool hasfavouritenumber ;
+    uint256 favouritenumber;
+    int256 nonfavouritenumber;
+    address wallet;
+
+    function store (uint256 _favouritenumber) public{
+
+        //Local Variables
+        favouritenumber=_favouritenumber;
+    }
+}
+```
+
+The content of the function is placed within the curly brackets {}.
+The prefix _ before _favoriteNumber is used to emphasize that the local variable _favoriteNumber is a different variable from the state variable favoriteNumber. This helps prevent potential confusion when dealing with different variables with similar names in complex codebases.
+
+Transactions creation
+Let's send a transaction to the store function to change the value of the variable favoriteNumber: you can insert a number and press the store button in Remix. A transaction is initiated and after some time, its status will change from pending to complete.
+
+💸 From the accounts section, it becomes visible that ETH is being consumed every time a transaction is submitted. When the state of the blockchain is modified (e.g. deploying a contract, sending ETH, ...), is done by sending a transaction that consumes gas. Executing the store function is more expensive than just transferring ETH between accounts, with the rising gas expenses primarily associated (though not exclusively) with the code length.
+
+Verifying the stored value
+This contract is missing a way to check if the number has been updated: now we can store a value but we cannot be sure if the transaction actually changed the variable value.
+
+The default visibility of the favoriteNumber variable is internal, preventing external contracts and users from viewing it.
+
+🗒️ NOTE:br
+Appending the public keyword next to a variable will automatically change its visibility and it will generate a getter function (a function that gets the variable's value when called).
+
+```solidity
+uint256 public favoriteNumber;
+```
+
+After completing compilation and deployment, a button labelled favoriteNumber will become visible. When pressed, it should return the most recent stored value of the variable favoriteNumber.
+
+
+Visibility
+In Solidity, functions and variables can have one of these four visibility specifiers:
+
+🌎 public: accessible from both inside the contract and from external contracts
+
+🏠 private: accessible only within the current contract. It does not hide a value but only restricts its access.
+
+🌲 external: used only for functions. Visible only from outside the contract.
+
+🏠🏠 internal: accessible by the current contract and any contracts derived from it.
+
+If a visibility specifier is not given, it defaults to internal.
+
+
+Pure and View keywords
+The terms view and pure are used when a function reads values from the blockchain without altering its state. Such functions will not initiate transactions but rather make calls, represented as blue buttons in the Remix interface. A pure function will prohibit any reading from the state or storage.
+NB:Remember to specify the data type that will be returned e.g returns(uint256)
+
+```solidity
+function retrieve() public view returns(uint256) {
+    return favoriteNumber;
+}
+```
+
+```solidity
+function retrieve() public pure returns(uint256) {
+    return 7;
+}
+```
+
+The keyword returns specifies the type(s) of value a function will return.
+
+The scope of a variable
+The scope of a variable refers to the context within which it is defined and accessible. This context is usually determined by the block of code, typically enclosed in curly braces {}, where the variable is declared. To access the same variable across different functions, it should be declared inside the scope of the main contract.
+
+```solidity
+function store(uint256 _favoriteNumber) public {
+    favoriteNumber = _favoriteNumber;
+    uint256 testVar = 5;
+}
+​
+function something() public {
+   testVar = 6; // will raise a compilation error
+   favoriteNumber = 7; // this can be accessed because it's in the main contract scope
+}
+```
+
+
+
+🧠 Memory vs Storage (bonus clarity)
+
+When you see:
+
+memory → temporary (like local variable for arrays, structs)
+
+storage → permanent reference to state data
