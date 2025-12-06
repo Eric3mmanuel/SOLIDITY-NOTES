@@ -1,0 +1,126 @@
+8.IMPORTING A CONTRACT FROM ANOTHER CONRACT 
+
+In this lesson ,we will be using 2 contracts,to explain the concept of imports in solidity ,so create a file for each 
+
+a).SimpleStorage.sol
+
+```solidity
+// I'm a comment!
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.30;
+
+// pragma solidity ^0.8.0;
+// pragma solidity >=0.8.0 <0.9.0;
+
+contract SimpleStorage {
+    uint256 myFavoriteNumber;
+
+    struct Person {
+        uint256 favoriteNumber;
+        string name;
+    }
+    // uint256[] public anArray;
+    Person[] public listOfPeople;
+
+    mapping(string => uint256) public nameToFavoriteNumber;
+
+    function store(uint256 _favoriteNumber) public virtual {
+        myFavoriteNumber = _favoriteNumber;
+    }
+
+    function retrieve() public view returns (uint256) {
+        return myFavoriteNumber;
+    }
+
+    function addPerson(string memory _name, uint256 _favoriteNumber) public {
+        listOfPeople.push(Person(_favoriteNumber, _name));
+        nameToFavoriteNumber[_name] = _favoriteNumber;
+    }
+}
+
+contract SimpleStorage2 {}
+
+contract SimpleStorage3 {}
+
+contract SimpleStorage4 {}
+```
+
+b)StorageFactory.sol
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.30;
+
+import {SimpleStorage} from "./SimpleStorage.sol";
+
+contract StorageFactory {
+
+    SimpleStorage public simplestorage;
+
+    function createSimpleStorage() public {
+        simplestorage = new SimpleStorage();
+    }
+}
+
+```
+
+Lets now explore imports in solidity
+
+//The 'IMPORT ' keyword is not placed inside a contract code 
+//It is used to import another contract into a contract
+//The syntax is import "./nameofcontract.sol";
+//meaning any changes made on the imported contract will be conveyed into the new contract.
+//its also important to keep the version of solidity in mind when working with different contracts to avoid compilation errors
+
+//now,incase an imported contract contains multiple contracts in it , and you would like to work with just one contract ,it would be more expensive to deploy 
+//to avoid this we use something called 'NAMED IMPORTS' ,which specifies the contract which you would like to work with
+//the syntax is import{nameofcontract} from "./nameoffile.sol";
+//we can also import multiple contracts from another file
+//e.g import {SimpleStorage,SimpleStorage2} from "./SimpleStorage.sol";
+
+lets explore with examples
+
+// SPDX-License-Identifier: MIT
+pragma solidity  ^0.8.19;
+
+
+
+import {SimpleStorage} from "./SimpleStorage.sol";//This  SimpleStorage contract from SimpleStorage.sol
+
+
+contract StorageFactory{
+
+    //remember when we input a data type in a contract?
+    //e.g uint256 public FavNo
+    //the syntax of saving that variable is type ,visibility, name
+    //we will do exactly that
+    //the type will be : SimpleStorage 
+    //this is because the same way in which a 'STRUCT ' keyword allows us to create a new type ,is the same way a 'CONTRACT ' keyword allows us to create a new type 
+    SimpleStorage public simpleStorage; 
+
+    function CreateSimpleStorageContract() public {
+    //the question is ,how does StorageFactory contract know how Simple Storage contract looks like?
+    //method1 : You can copy the contract code from the original contract and paste it on the other contract as done above
+    //You are allowed to have multiple contracts on the same file .(THOUGH THIS ISNT THE BEST PRACTICE)
+    //To avoid this you can use the 'IMPORT ' keyword to import anoher contract
+    //e.g import "./SimpleStorage.sol";
+
+    simpleStorage = new SimpleStorage();
+    // the 'new ' keyword is how solidity knows to deploy a contract.
+    }
+
+}
+
+//So ,once you've compiled and deployed your StorageFactory contract,you should click on the createSimpleStorageContract button on remix and then click on the simpleStorage button that appears.This deploys a new SimpleStorage contract ,and displays a new address,where you can now locate the SimpleStorage contract
+
+/Another thing to keep in mind when deploying contracts from other contracts is the solidity version of both contracts .Having a mismatch e.g pragma solidity 0.8.26; on the first contract  and pragma solidity ^0.8.30; on the second contract might trigger an error
+
+You can also use named imports to import multiple contracts:
+
+import { SimpleStorage, SimpleStorage1 } from "./SimpleStorage.sol";
+👀❗IMPORTANT:br
+Try to always default to named imports instead of importing the entire file.
+
+Conclusion
+The import keyword allows a contract to use code from other files without including the entire codebase. However, it can introduce compilation issues if different compiler versions are used in these files.*/
