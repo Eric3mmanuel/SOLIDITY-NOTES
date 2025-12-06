@@ -1,0 +1,41 @@
+ARGUMENTS AND PARAMETERS
+
+-A function is a reusable action e.g function Eric(){}
+-Parameters are the placeholders a function declares (in the definition)e.g
+function Eric (address X , uint 256  Y ) {}
+X and Y are the function parameters .
+-Arguments are the actual values which are passed in when you call it
+
+e.g after deploying and calling function Eric ,you see
+X - 0x123...
+Y - 333
+
+In General Programming
+What are arguments for ?
+Arguments let you customize what a function does this time you call it ,without having to rewrite the function
+
+e.g
+def add(a, b):      # parameters: a, b
+    return a + b
+
+add(2, 3)           # arguments: 2, 3 → returns 5
+Common concepts (brief)
+Positional vs named (keyword) arguments
+
+Positional: add(2, 3) (order matters)
+
+Named/keyword: paint(color="red", coats=2) (order doesn’t matter, names must match)
+
+Default arguments
+Some languages let you give defaults: def greet(name="world")
+
+Variadic (rest) arguments
+Some allow “any number of args”: e.g. sum(*nums) in Python, ...args in JS.
+
+Pass-by-value vs pass-by-reference
+
+Value types (numbers, booleans) are typically copied.
+
+Reference types (arrays/objects) often pass a reference to the same data (language-specific rules apply).
+
+-Arguments are the actual values you pass in when you call itS
